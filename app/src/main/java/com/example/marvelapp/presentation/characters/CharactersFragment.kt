@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.marvelapp.databinding.FragmentCharactersBinding
-import com.example.marvelapp.domain.domain.Character
+import com.example.marvelapp.domain.model.Character
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -3,7 +3,7 @@ package com.example.marvelapp.presentation.characters
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.marvelapp.domain.domain.Character
+import com.example.marvelapp.domain.model.Character
 
 
 class CharactersAdapter : ListAdapter<Character, CharactersViewHolder>(diffCallback) {
