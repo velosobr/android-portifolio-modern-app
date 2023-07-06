@@ -72,11 +72,11 @@ pre {
 
 <div>
   <ul>
-      <li>30 number of properties</li>
-      <li>29 number of functions</li>
-      <li>19 number of classes</li>
-      <li>14 number of packages</li>
-      <li>20 number of kt files</li>
+      <li>31 number of properties</li>
+      <li>39 number of functions</li>
+      <li>29 number of classes</li>
+      <li>16 number of packages</li>
+      <li>26 number of kt files</li>
   </ul>
 </div>
 
@@ -85,63 +85,25 @@ pre {
 
 <div>
     <ul>
-        <li>514 lines of code (loc)</li>
-        <li>412 source lines of code (sloc)</li>
-        <li>246 logical lines of code (lloc)</li>
+        <li>642 lines of code (loc)</li>
+        <li>514 source lines of code (sloc)</li>
+        <li>292 logical lines of code (lloc)</li>
         <li>8 comment lines of code (cloc)</li>
-        <li>38 cyclomatic complexity (mcc)</li>
-        <li>7 cognitive complexity</li>
-        <li>2 number of total code smells</li>
+        <li>51 cyclomatic complexity (mcc)</li>
+        <li>8 cognitive complexity</li>
+        <li>0 number of total code smells</li>
         <li>1% comment source ratio</li>
-        <li>154 mcc per 1,000 lloc</li>
-        <li>8 code smells per 1,000 lloc</li>
+        <li>174 mcc per 1,000 lloc</li>
+        <li>0 code smells per 1,000 lloc</li>
     </ul>
 </div>
 
 
 <h2>Findings</h2>
-<div>Total: 2
-    <h3>exceptions: 1</h3>
-    <details id="TooGenericExceptionCaught" open="open">
-        <summary class="rule-container"><span class="rule">TooGenericExceptionCaught: 1 </span><span
-                class="description">Caught exception is too generic. Prefer catching specific exceptions to the case that is currently handled.</span>
-        </summary>
-        <ul>
-            <li><span class="location">C:/dev/curso-android-marvel-app/app/src/main/java/com/example/marvelapp/paging/CharactersPagingSource.kt:39:18</span><span
-                    class="message">Caught exception is too generic. Prefer catching specific exceptions to the case that is currently handled.</span>
-                <pre><code><span class="lineno">  36 </span>                } else null
-<span class="lineno">  37 </span>            )
-<span class="lineno">  38 </span>
-<span class="lineno">  39 </span>        } catch (<span class="error">exception: Exception</span>) {
-<span class="lineno">  40 </span>            LoadResult.Error(exception)
-<span class="lineno">  41 </span>        }
-<span class="lineno">  42 </span>    }
-</code></pre>
-            </li>
-        </ul>
-    </details>
-    <h3>style: 1</h3>
-    <details id="UnusedPrivateMember" open="open">
-        <summary class="rule-container"><span class="rule">UnusedPrivateMember: 1 </span><span
-                class="description">Private member is unused.</span></summary>
-        <ul>
-            <li><span class="location">C:/dev/curso-android-marvel-app/app/src/main/java/com/example/marvelapp/framework/CharactersRepositoryImpl.kt:14:5</span><span
-                    class="message">Private property remoteDatasource is unused.</span>
-                <pre><code><span class="lineno">  11 </span> * Depende de uma abstração e não de uma implementação
-<span class="lineno">  12 </span> */
-<span class="lineno">  13 </span>class CharactersRepositoryImpl @Inject constructor(
-<span class="lineno">  14 </span>    <span class="error">private val remoteDatasource: CharactersRemoteDatasource&lt;DataWrapperResponse&gt;</span>
-<span class="lineno">  15 </span>) : CharactersRepository {
-<span class="lineno">  16 </span>    override fun getCharacters(query: String): PagingSource&lt;Int, Character&gt; {
-<span class="lineno">  17 </span>        return CharactersPaging()
-</code></pre>
-            </li>
-        </ul>
-    </details>
-</div>
+<div>Total: 0</div>
 
 
-generated with <a href="https://detekt.github.io/">detekt version 1.18.0</a> on 2023-07-03 19:48:09
+generated with <a href="https://detekt.github.io/">detekt version 1.18.0</a> on 2023-07-06 20:14:46
 UTC.
 
 </body>
