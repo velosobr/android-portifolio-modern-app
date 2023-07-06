@@ -1,7 +1,7 @@
 package com.example.marvelapp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -25,18 +25,14 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_container) as NavHostFragment
 
         navController = navHostFragment.navController
+
+        binding.bottomNavMain.setupWithNavController(navController)
+
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.charactersFragment, R.id.aboutFragment, R.id.favoritesFragment)
+            setOf(R.id.charactersFragment, R.id.favoritesFragment, R.id.aboutFragment)
         )
 
-        bindingElements(binding)
-
-        handleToolbarBackButton(binding)
-
-
-    }
-
-    private fun handleToolbarBackButton(binding: ActivityMainBinding) {
+        binding.toolbarApp.setupWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val isTopLevelDestination =
                 appBarConfiguration.topLevelDestinations.contains(destination.id)
@@ -44,10 +40,5 @@ class MainActivity : AppCompatActivity() {
                 binding.toolbarApp.setNavigationIcon(R.drawable.ic_back)
             }
         }
-    }
-
-    private fun bindingElements(binding: ActivityMainBinding) {
-        binding.bottomNavMain.setupWithNavController(navController)
-        binding.toolbarApp.setupWithNavController(navController, appBarConfiguration)
     }
 }
