@@ -4,16 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.example.marvelapp.databinding.FragmentCharactersBinding
-import com.example.marvelapp.domain.model.Character
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
     private var _binding: FragmentCharactersBinding? = null
     private val binding: FragmentCharactersBinding get() = _binding!!
+
+    private val viewModel: CharactersViewModel by viewModels()
 
     private val charactersAdapter = CharactersAdapter()
     override fun onCreateView(
@@ -30,27 +37,13 @@ class CharactersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCharactersAdapter()
+        observeInitialLoadState()
 
-        charactersAdapter.submitList(
-            listOf(
-                Character(
-                    "Spider Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "Spider Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "Spider Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "Spider Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                )
-            )
-        )
+        lifecycleScope.launch {
+            viewModel.charactersPagingData("").collect { pagingData ->
+                charactersAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun initCharactersAdapter() {
@@ -58,6 +51,47 @@ class CharactersFragment : Fragment() {
             setHasFixedSize(true) //assim fica mais otimizado, já que garantimos o tamanho do item
             adapter = charactersAdapter
         }
+    }
+
+    private fun observeInitialLoadState() {
+        lifecycleScope.launch {
+            charactersAdapter.loadStateFlow.collectLatest { loadState ->
+                binding.flipperCharacters.displayedChild = when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        setShimmerVisibility(true)
+                        FLIPPER_CHILD_LOADING
+                    }
+
+                    is LoadState.NotLoading -> {
+                        setShimmerVisibility(false)
+                        FLIPPER_CHILD_CHARACTERS
+                    }
+
+                    is LoadState.Error ->
+                        FLIPPER_CHILD_ERROR
+
+
+                }
+
+            }
+        }
+    }
+
+    private fun setShimmerVisibility(visibility: Boolean) {
+        binding.includeViewCharactersLoadingState.shimmerCharacters.run {
+            isVisible = visibility
+            if (visibility) {
+                startShimmer()
+            } else {
+                stopShimmer()
+            }
+        }
+    }
+
+    companion object {
+        private const val FLIPPER_CHILD_LOADING = 0
+        private const val FLIPPER_CHILD_CHARACTERS = 1
+        private const val FLIPPER_CHILD_ERROR = 2
     }
 
 }
