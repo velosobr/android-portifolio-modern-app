@@ -13,9 +13,9 @@ class CharactersAdapter : PagingDataAdapter<Character, CharactersViewHolder>(dif
 
     @SuppressWarnings("UnusedPrivateMember")
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
-
-        holder.bind(getItem(position)!!)
-
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     companion object {
