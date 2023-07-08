@@ -67,9 +67,13 @@ class CharactersFragment : Fragment() {
                         FLIPPER_CHILD_CHARACTERS
                     }
 
-                    is LoadState.Error ->
+                    is LoadState.Error -> {
+                        setShimmerVisibility(false)
+                        binding.includeViewCharactersErrorState.buttonRetry.setOnClickListener {
+                            charactersAdapter.refresh()
+                        }
                         FLIPPER_CHILD_ERROR
-
+                    }
 
                 }
 
@@ -93,5 +97,4 @@ class CharactersFragment : Fragment() {
         private const val FLIPPER_CHILD_CHARACTERS = 1
         private const val FLIPPER_CHILD_ERROR = 2
     }
-
 }
