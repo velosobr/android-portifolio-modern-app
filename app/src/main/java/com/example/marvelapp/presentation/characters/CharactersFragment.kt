@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import com.example.marvelapp.databinding.FragmentCharactersBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +24,7 @@ class CharactersFragment : Fragment() {
 
     private val viewModel: CharactersViewModel by viewModels()
 
-    private val charactersAdapter = CharactersAdapter()
+    private lateinit var charactersAdapter: CharactersAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,16 +42,24 @@ class CharactersFragment : Fragment() {
         observeInitialLoadState()
 
         lifecycleScope.launch {
-            viewModel.charactersPagingData("").collect { pagingData ->
-                charactersAdapter.submitData(pagingData)
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.charactersPagingData("").collect { pagingData ->
+                    charactersAdapter.submitData(pagingData)
+                }
             }
+
         }
     }
 
     private fun initCharactersAdapter() {
+        charactersAdapter = CharactersAdapter()
         with(binding.recyclerCharacters) {
             setHasFixedSize(true) //assim fica mais otimizado, já que garantimos o tamanho do item
-            adapter = charactersAdapter
+            adapter = charactersAdapter.withLoadStateFooter(
+                footer = CharactersLoadStateAdapter(
+                    charactersAdapter::retry
+                )
+            )
         }
     }
 
@@ -67,9 +77,13 @@ class CharactersFragment : Fragment() {
                         FLIPPER_CHILD_CHARACTERS
                     }
 
-                    is LoadState.Error ->
+                    is LoadState.Error -> {
+                        setShimmerVisibility(false)
+                        binding.includeViewCharactersErrorState.buttonRetry.setOnClickListener {
+                            charactersAdapter.refresh()
+                        }
                         FLIPPER_CHILD_ERROR
-
+                    }
 
                 }
 
@@ -93,5 +107,4 @@ class CharactersFragment : Fragment() {
         private const val FLIPPER_CHILD_CHARACTERS = 1
         private const val FLIPPER_CHILD_ERROR = 2
     }
-
 }
