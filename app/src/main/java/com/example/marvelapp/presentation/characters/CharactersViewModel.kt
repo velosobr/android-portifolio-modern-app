@@ -13,10 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
-    private val getCharactersUsecase: GetCharactersUseCase
+    private val getCharactersUseCase: GetCharactersUseCase
 ) : ViewModel() {
     fun charactersPagingData(query: String): Flow<PagingData<Character>> {
-        return getCharactersUsecase(
+        return getCharactersUseCase(
             GetCharactersUseCase.GetCharactersParams(query, getPageConfig())
         ).cachedIn(viewModelScope)
     }
