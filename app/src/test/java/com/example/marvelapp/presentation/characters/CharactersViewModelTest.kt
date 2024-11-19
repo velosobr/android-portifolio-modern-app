@@ -16,9 +16,11 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 
@@ -31,7 +33,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class CharactersViewModelTest {
 
     @ExperimentalCoroutinesApi
-    val testDispatcher: TestDispatcher = StandardTestDispatcher()
+    val testDispatcher = TestCoroutineDispatcher()
 
     private lateinit var charactersViewModel: CharactersViewModel
 
@@ -61,8 +63,8 @@ class CharactersViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `should validade the paging data object values when calling charactersPagingData`() =
-        runBlockingTest {
+    fun `should validate the paging data object values when calling charactersPagingData`() =
+        runBlocking {
 
             whenever(
                 getCharactersUseCase.invoke(any())
@@ -77,5 +79,13 @@ class CharactersViewModelTest {
 
             assertEquals(1, result.count())
         }
+
+    @ExperimentalCoroutinesApi
+    @After
+    fun tearDownDispatcher() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
+
 
 }

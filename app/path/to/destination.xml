@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="4.3">
+<file name="/Users/lino.veloso/dev/velosobr/android-portifolio-modern-app/testUtils/src/main/java/com/example/testutils/MyClass.kt">
+	<error line="3" column="15" severity="warning" message="The class or object MyClass is empty." source="detekt.EmptyClassBlock" />
+</file>
 </checkstyle>

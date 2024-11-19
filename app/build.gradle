@@ -63,6 +63,7 @@ dependencies {
     // Material design
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.6'
 
     // Navigation
     def nav_version = '2.5.2'
@@ -103,10 +104,8 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Unit tests
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation project(':testUtils')
+
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Instrumentation tests
